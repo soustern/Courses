@@ -205,7 +205,7 @@ console.log(bookAuthors);
 // Write a function called spellWord that accepts a single string as an argument. 
 // This function should log to the console each letter of the argument separated by a space.
 
-// I know this is a very lopsided way of doing this exercise, I just want to train my understand of concepts here
+// I know this is a very lopsided way of doing this exercise, I just want to train my understanding of concepts here
 var str = prompt();
 const spellWord = (word) => word; 
 console.log(...spellWord(this.str));

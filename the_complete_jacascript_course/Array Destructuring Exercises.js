@@ -1,40 +1,4 @@
-// Exercise 1:
-// Destructure the following object and log the values of `name` and `age` to the console.
-// const person = { name: 'John Doe', age: 30 };
-// const { name: a, age: b } = person;
-// console.log(a, b);
-
-// Exercise 2:
-// Destructure the following object and log the values of `title` and `author` to the console.
-// const book = { title: 'The Catcher in the Rye', author: 'J.D. Salinger' };
-
-// let title, author;
-// ({ title, author } = book);
-// console.log(title, author);
-
-// Exercise 3:
-// Destructure the following object and log the values of `city` and `country` to the console.
-// const address = { city: 'New York', country: 'USA' };
-
-// let city, country;
-// ({city, country} = address);
-// console.log(city, country);
-
-// Exercise 4:
-// Destructure the following object and log the values of `x` and `y` to the console.
-// const coordinates = { x: 10, y: 20 };
-
-// const { x, y } = coordinates;
-// console.log(x, y);
-
-// Exercise 5:
-// Destructure the following array and log the values of `firstName` and `lastName` to the console.
-// const arr = ['John', 'Doe'];
-
-// const [firstName, lastName] = arr;
-// console.log(firstName, lastName);
-
-// ASSIGNMENTS
+// ASSIGNMENTS 
 
 const books = [
   {
@@ -220,52 +184,30 @@ const books = [
   }
 ];
 
-// Destructure the first book object from the books array into variables called title, author and ISBN.
+// 1.1 Destructure the books array into two variables called firstBook and secondBook.
 
-let title, author, ISBN;
-({title, author, ISBN} = books[0]);
-console.log(title, author, ISBN);
+const [firstBook, secondBook] = books;
+console.log(firstBook, secondBook);
 
-// Each book object has the keywords property. Destructure the first book object \
-// from the books array into a variable called tags. 
-// The tags variable should be assigned with the value of the keywords property.
+// 1.2 Destructure the books array into a variable called thirdBook. You must skip the first two books.
 
-const {keywords: tags} = books[0];
-console.log(tags);
+const [ , , thirdBook] = books;
+console.log(thirdBook);
 
-// The seventh book from the books array is missing the programmingLanguage property. 
-// Destructure the seventh book object (books[6]) into
-// variables called language and programmingLanguage. 
-// Assign the programmingLanguage variable with a default value of 'unknown'.
+// 1.3 Below is the nested ratings array that contains two other arrays.
+//     Destructure the nested ratings arrays into two variables called rating and ratingsCount.
+//     In the result of your destructuring, the ratings variable should store a number 4.19, 
+//     and the ratingsCount variable should store a number 144584.
 
-const {language, programmingLanguage = "Unknown"} = books[6];
-console.log(language, programmingLanguage);
+const ratings = [['rating', 4.19], ['ratingsCount', 144584]];
 
-// Below are two variables called bookTitle and bookAuthor. 
-// Reassign them with the values of the title and author 
-// properties of the first book object from the books array.
+const [[,rating], [,ratingsCount]] = ratings;
+console.log(rating, ratingsCount);
 
-let bookTitle = 'unknown';
-let bookAuthor = 'unknown';
+// 1.4 low is the ratingStars array. Destructure it into three variables called fiveStarRatings,
+//     oneStarRatings and threeStarRatings. Assign the threeStarRatings variable with a default value of 0.
 
-({title: bookTitle, author: bookAuthor} = books[0]);
-console.log(bookTitle, bookAuthor);
+const ratingStars = [63405, 1808];
 
-// Destructure the first book object from the books array into a variable called bookRating. 
-// In the result of your destructuring, \
-// the bookRating variable should be assigned with the value of the 
-// book[0].thirdParty.goodreads.rating property.
-
-let bookRating;
-
-({thirdParty: {goodreads: {rating: bookRating}}} = books[0]);
-console.log(bookRating);
-
-// Write a function called printBookInfo that has three parameters called title, 
-// author and year. This function should work for a single object passed as an argument, 
-// and it should log to the console information about the book in this format: "${title} by ${author}, ${year}".
-
-// If year is undefined (was not passed), it should be assigned with a default value of 'year unknown'.
-
-const printBookInfo = ({title, author, year = "year unknown"}) => title + " by " + author + ", " + year;
-console.log(printBookInfo(books[7])); 
+const [fiveStarsRatings, oneStarRatings, ThreeStarRatings = 0] = ratingStars;
+console.log(fiveStarsRatings, oneStarRatings, ThreeStarRatings);

@@ -1,0 +1,64 @@
+// Coding Challenge #4
+
+
+// Write a program that receives a list of variable names written in underscore_case and convert them to camelCase.
+
+// The input will come from a textarea inserted into the DOM (see code below),
+//  and conversion will happen when the button is pressed.
+
+// THIS TEST DATA (pasted to textarea)
+// underscore_case
+//  first_name
+// Some_Variable 
+//   calculate_AGE
+// delayed_departure
+
+// SHOULD PRODUCE THIS OUTPUT (5 separate console.log outputs)
+// underscoreCase      ✅
+// firstName           ✅✅
+// someVariable        ✅✅✅
+// calculateAge        ✅✅✅✅
+// delayedDeparture    ✅✅✅✅✅
+
+// HINT 1: Remember which character defines a new line in the textarea 😉
+// HINT 2: The solution only needs to work for a variable made out of 2 words, like a_b
+// HINT 3: Start without worrying about the ✅. Tackle that only after you have the variable name conversion working 😉
+// HINT 4: This challenge is difficult on purpose, so start watching the solution in case you're stuck. Then pause and continue!
+
+// Afterwards, test with your own test data!
+
+// GOOD LUCK 😀
+
+document.body.append(document.createElement(`textarea`));
+document.body.append(document.createElement(`button`));
+const button = document.querySelector(`button`);
+button.textContent = `click me`;
+
+button.addEventListener(`click`, () => {
+    const text = document.querySelector(`textarea`).value;
+    
+    if (!text.includes(`_`)) {
+        alert(`Text must be in underscore_case`);
+        return;
+    };
+    
+    let arrayOfNewText = text.trim().split(`\n`);
+
+    arrayOfNewText  = arrayOfNewText.map((word, mapIndex) => {
+        let ArrayOfNewWords = word.split(`_`);
+        ArrayOfNewWords = ArrayOfNewWords.map((word) => word.trim());
+        for (const [index, word] of ArrayOfNewWords.entries())
+        {
+            if (index === 0) {
+                ArrayOfNewWords[index] = word[0].toLowerCase() + word.slice(1)
+                continue;
+            };
+            ArrayOfNewWords[index] = word[0].toUpperCase() + word.slice(1).toLowerCase() + ` ` + `✅`.repeat(mapIndex + 1);
+        }
+        return ArrayOfNewWords.join(``);
+    })
+
+    for (const text of arrayOfNewText) {
+        console.log(text);
+    }
+});

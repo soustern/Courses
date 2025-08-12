@@ -53,7 +53,7 @@ button.addEventListener(`click`, () => {
                 ArrayOfNewWords[index] = word[0].toLowerCase() + word.slice(1)
                 continue;
             };
-            ArrayOfNewWords[index] = word[0].toUpperCase() + word.slice(1).toLowerCase() + ` ` + `✅`.repeat(mapIndex + 1);
+            ArrayOfNewWords[index] = word[0].toUpperCase() + word.slice(1).toLowerCase().padEnd(20) + ` ` + `✅`.repeat(mapIndex + 1);
         }
         return ArrayOfNewWords.join(``);
     })

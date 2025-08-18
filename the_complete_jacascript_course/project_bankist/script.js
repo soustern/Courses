@@ -74,3 +74,66 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+
+// Slice method -----------------------------------------------------------------------------------------------------
+let arr = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(arr.slice(2)); 
+console.log(arr.slice(2, 4));
+console.log(arr.slice(-2));
+console.log(arr.slice(1, -2));
+
+// The slice method can be used to create a shallow copy
+console.log(arr.slice());
+
+// Splice method -----------------------------------------------------------------------------------------------------
+// This method does not return a new array, it changes the original
+// It mutates the original array
+
+arr = ['a', 'b', 'c', 'd', 'e'];
+
+console.log(arr.splice(2));
+console.log(arr);
+
+// It can be used to remove the last element of an array
+arr = ['a', 'b', 'c', 'd', 'e'];
+console.log(arr.splice(-1));
+console.log(arr);
+
+// Reverse method ------------------------------------------------------------------------------------------------------
+// This method mutates the original array
+const arr2 = ['j', 'i', 'h', 'g', 'f'];
+console.log(arr2.reverse());
+console.log(arr2);
+
+// Concat method -------------------------------------------------------------------------------------------------------
+// This returns a new array and does not mutate the original
+const letters = arr.concat(arr2);
+console.log(letters);
+// Same as:
+const letters2 = [...arr, ...arr2];
+console.log(letters2);
+
+// Join method ---------------------------------------------------------------------------------------------------------
+// Returns a string with the separator we specify as an argument
+console.log(letters.join(`-`));
+
+// At method ----------------------------------------------------------------------------------------------------------
+const arr3 = [23, 11, 64];
+console.log(arr3.at(0));
+// Same as:
+console.log(arr3[0]);
+
+// Getting the last element
+console.log(arr3.slice(-1)[0]);
+console.log(arr3.at(-1));
+
+// foreach method ------------------------------------------------------------------------------------------------------
+movements.forEach(function (mov, i, arr) {
+  if (mov > 0) {
+    console.log(`Movement ${i + 1}: You deposited ${mov}`);
+  } else {
+    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(mov)}`);
+  }
+});

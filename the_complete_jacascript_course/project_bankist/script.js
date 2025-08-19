@@ -78,6 +78,12 @@ const displayMovements = function(movements) {
 }
 displayMovements(account1.movements);
 
+const defineBalance = acc => acc.movements.reduce((curr, mov) => curr + mov, 0);
+
+labelBalance.textContent = defineBalance(account1);
+
+// Create the usernames using the acc.owner property
+// This is becoming second nature to me, exciting
 const createUsername = accs => 
     accs.forEach(acc => acc.username = acc.owner.toLowerCase().split(` `).map(string => string[0]).join(``));
 
@@ -90,13 +96,25 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]); 
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, -3000, -650, -130, 70, 1300];
 
 const eurToUsd = 1.1;
 
 const movementsUsd = movements.map(movement => movement * eurToUsd);
 
-const deposits = movements.filter(movement => );
+// Filter method
+// returns a new array with entries that are specified by the callback function
+const deposits = movements.filter(movement => movement > 0);
+const withdrawals = movements.filter(movement => movement < 0);
+
+// Reduce method reduces all values within an array to single one based on
+// a operation defined within the callback function
+// Aside from a callback as the first argument, we can also pass a starting value
+// as the second argument. The accumulator will then default to that argument
+// in its first value
+const balance = movements.reduce((accumulator, movement) => accumulator + movement, 0) / movements.length;
+
+console.log(deposits, withdrawals, balance > 0 ? `positive balance of ${balance}` : `negative balance of ${Math.abs(balance)}`);
 
 
 /////////////////////////////////////////////////
@@ -184,5 +202,10 @@ const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
 currenciesUnique.forEach(function (value, key, map) {
   console.log(`${key}: ${value}`);
 });
+
+// Using the reduce method to return the biggest value within an array ---------------------------------------------
+const max = movements.reduce((acc, mov) => acc > mov ? acc : mov, movements[0]);
+
+console.log(max);
 
 //#endregion

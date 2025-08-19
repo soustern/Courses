@@ -35,7 +35,7 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
-// Elements
+// #region Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -61,8 +61,19 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+//#endregion
+
 const movements = [200, 450, -400, -3000, -650, -130, 70, 1300];
 
+const eurToUsd = 1.1;
+
+const movementsUsd = movements.map(movement => movement * eurToUsd);
+
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]); 
 
 //#region displayMovements defineBalance
 const displayMovements = function(movements) {
@@ -90,6 +101,7 @@ labelBalance.textContent = defineBalance(account1);
 
 //#endregion
 
+//#region calcDisplaySummary
 const calcDisplaySummary = function(movements) {
   const incomes = movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = incomes;
@@ -108,10 +120,11 @@ const calcDisplaySummary = function(movements) {
 
 calcDisplaySummary(account1.movements);
 
+//#endregion
 
+//#region createUsername 
 // Create the usernames using the acc.owner property
 // This is becoming second nature to me, exciting
-//#region createUsername 
 const createUsername = accs => 
     accs.forEach(acc => acc.username = acc.owner.toLowerCase().split(` `).map(string => string[0]).join(``));
 
@@ -119,22 +132,13 @@ createUsername(accounts);
 console.log(accounts);
 //#endregion
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]); 
-
-
-const eurToUsd = 1.1;
-
-const movementsUsd = movements.map(movement => movement * eurToUsd);
-
-// Filter method
+// #region Filter method
 // returns a new array with entries that are specified by the callback function
 const deposits = movements.filter(movement => movement > 0);
 const withdrawals = movements.filter(movement => movement < 0);
+//#endregion
 
+// #region Reduce method
 // Reduce method reduces all values within an array to single one based on
 // a operation defined within the callback function
 // Aside from a callback as the first argument, we can also pass a starting value
@@ -143,13 +147,15 @@ const withdrawals = movements.filter(movement => movement < 0);
 const balance = movements.reduce((accumulator, movement) => accumulator + movement, 0) / movements.length;
 
 console.log(deposits, withdrawals, balance > 0 ? `positive balance of ${balance}` : `negative balance of ${Math.abs(balance)}`);
+// #endregion
 
+//#region Chaining methods
 // Pipeline
 const totalDepositsInUSD = movements.filter(mov => mov > 0).map(mov => mov * eurToUsd).reduce((acc, mov) => acc + mov, 0);
 
 console.log(totalDepositsInUSD );
 
-/////////////////////////////////////////////////
+//#endregion
 
 //#region console training
 
@@ -242,3 +248,23 @@ const max = movements.reduce((acc, mov) => acc > mov ? acc : mov, movements[0]);
 console.log(max);
 
 //#endregion
+
+//#region find method
+// find method returns the first element of an array
+// that satisfies a specified condition
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(firstWithdrawal);
+
+console.log(accounts.find(account => account.owner[0].toLowerCase() === `s`).owner);
+
+// Same thing as above but in a for of loop
+for (const account of accounts) {
+  if (account.owner[0].toLowerCase() === `s`) {
+    console.log(account.owner);
+    // Have to break it here otherwise the console will log the 
+    // other person which name begins with S
+    break;
+  };
+}
+// #endregion
+

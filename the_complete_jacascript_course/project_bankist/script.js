@@ -75,7 +75,89 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]); 
 
-//#region displayMovements defineBalance
+// This variable will receive the account which is logged int at the moment
+let currentAccount;
+
+// #region Event Handlers
+
+btnLogin.addEventListener(`click`, (event) => {
+  event.preventDefault();
+
+  // The .find method does not return a boolean, but the first element that matches
+  // the condition specified. If nothing is find, undefined is returned
+  currentAccount = accounts.find(account => account.username === inputLoginUsername.value);
+  console.log(currentAccount);
+
+  // Usage of optional chaining
+  // Check if current account even has a value associated to it
+  // before trying to access a property
+  if(currentAccount?.pin === Number(inputLoginPin.value))
+  {
+    // Display UI and message
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(` `)[0]}`;
+    containerApp.style.opacity = 100;
+
+    // Clear the input field
+    // This method of assigning works because assignment works from right to left
+    inputLoginUsername.value = inputLoginPin.value = ``;
+    // Makes it so the field looses the cursor focus
+    inputLoginPin.blur();
+    
+    // Display movements
+    displayMovements(currentAccount.movements);
+
+    // Display balance
+    labelBalance.textContent = currentAccount.balance = defineBalance(currentAccount);
+
+    // Display summary
+    calcDisplaySummary(currentAccount);
+  };
+});
+
+// #endregion
+
+// #region Implement Transfers
+
+btnTransfer.addEventListener(`click`, function(event) {
+  event.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  
+  const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+
+  if (!receiverAcc) {
+    alert(`Receiver account does not exist`);
+    return;
+  };
+
+  // This is not necessary here and was only made for training purposes
+  // Try catch is anti pattern here
+  // try{
+  //   receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+  //   if(!receiverAcc) {
+  //    throw new Error(`Receiver account does not exist`);
+  //   }
+  //   console.log(amount, receiverAcc);
+  // }
+  // catch(error)
+  // {
+  //   alert(error.message);
+  // }
+  // This is critically wrong, the finally code block will execute
+  // Even if no error is thrown
+  // finally
+  // {
+  //   alert(`Account not found`);
+  // }
+  
+
+  if (amount > 0 && currentAccount.balance >= amount && receiverAcc.username !== currentAccount.username) {
+
+  }
+});
+
+// #endregion
+
+//#region displayMovements
 const displayMovements = function(movements) {
   containerMovements.innerHTML = ``;
 
@@ -95,30 +177,30 @@ const displayMovements = function(movements) {
 
 displayMovements(account1.movements);
 
-const defineBalance = acc => acc.movements.reduce((curr, mov) => curr + mov, 0);
+//#endregion
 
-labelBalance.textContent = defineBalance(account1);
+// #region defineBalance
+
+const defineBalance = acc => acc.movements.reduce((curr, mov) => curr + mov, 0);
 
 //#endregion
 
 //#region calcDisplaySummary
-const calcDisplaySummary = function(movements) {
-  const incomes = movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
+const calcDisplaySummary = function(account) {
+  const incomes = account.movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = incomes;
 
-  const outgoing = movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
+  const outgoing = account.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = outgoing;
 
   // chaining methods can cause performance issues in huge arrays
-  const interest = movements.filter(mov => mov > 0)
-  .map(mov => mov * 1.2 / 100)
+  const interest = account.movements.filter(mov => mov > 0)
+  .map(mov => mov * account.interestRate / 100)
   .filter(mov => mov >= 1)
   .reduce((acc, mov) => acc + mov, 0);
 
   labelSumInterest.textContent = interest
 };
-
-calcDisplaySummary(account1.movements);
 
 //#endregion
 

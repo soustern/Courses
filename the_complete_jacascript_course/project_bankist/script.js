@@ -1,5 +1,9 @@
 'use strict';
 
+let isHidden = {
+  passwordId: new Object(),
+}
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -51,6 +55,7 @@ const btnLogin = document.querySelector('.login__btn');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
+const btnVisibility = document.querySelector(`.form__btn--visibility`);
 const btnSort = document.querySelector('.btn--sort');
 
 const inputLoginUsername = document.querySelector('.login__input--user');
@@ -75,16 +80,18 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]); 
 
-// This variable will receive the account which is logged int at the moment
+// This variable will receive the account which is logged in at the moment
 let currentAccount;
 
-// Update UI Function
+// #region Update UI Function
 
 const updateUI = account => {
   displayMovements(account.movements);
   calcDisplaySummary(account);
   labelBalance.textContent = account.balance = defineBalance(account);
 };
+
+// #endregion
 
 // #region Event Handlers
 
@@ -159,6 +166,40 @@ btnTransfer.addEventListener(`click`, function(event) {
   }
 });
 
+// #endregion
+
+// #region implement Close Account
+
+btnVisibility.addEventListener(`click`, function(event) {
+  event.preventDefault();
+  if (this.querySelector(`i`).classList.contains(`fa-eye-slash`)) {
+    this.querySelector(`i`).classList = `fa-solid fa-eye`;
+    inputClosePin.type = `password`;
+  }
+  else {
+    this.querySelector(`i`).classList = `fa-solid fa-eye-slash`
+    inputClosePin.type = ``;
+  }
+});
+
+btnClose.addEventListener(`click`, function(event) {
+  event.preventDefault();
+  console.log(`delete`);
+  
+  if (!inputClosePin.value.trim() && !inputCloseUsername.value.trim())
+  {
+    alert(`pin and username missing`);
+  }
+  else if(!inputClosePin.value.trim())
+  {
+    alert(`pin is missing`);
+  }
+  else if(!inputCloseUsername.value.trim())
+  {
+    alert(`username is missing`);
+  };
+    
+});
 // #endregion
 
 //#region displayMovements

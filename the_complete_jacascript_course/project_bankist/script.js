@@ -78,6 +78,14 @@ const currencies = new Map([
 // This variable will receive the account which is logged int at the moment
 let currentAccount;
 
+// Update UI Function
+
+const updateUI = account => {
+  displayMovements(account.movements);
+  calcDisplaySummary(account);
+  labelBalance.textContent = account.balance = defineBalance(account);
+};
+
 // #region Event Handlers
 
 btnLogin.addEventListener(`click`, (event) => {
@@ -103,14 +111,8 @@ btnLogin.addEventListener(`click`, (event) => {
     // Makes it so the field looses the cursor focus
     inputLoginPin.blur();
     
-    // Display movements
-    displayMovements(currentAccount.movements);
-
-    // Display balance
-    labelBalance.textContent = currentAccount.balance = defineBalance(currentAccount);
-
-    // Display summary
-    calcDisplaySummary(currentAccount);
+    updateUI(currentAccount);
+    
   };
 });
 
@@ -150,8 +152,10 @@ btnTransfer.addEventListener(`click`, function(event) {
   // }
   
 
-  if (amount > 0 && currentAccount.balance >= amount && receiverAcc.username !== currentAccount.username) {
-
+  if (amount > 0 && currentAccount.balance >= amount && receiverAcc?.username !== currentAccount.username) {
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    updateUI(currentAccount);
   }
 });
 

@@ -407,3 +407,18 @@ for (const account of accounts) {
 }
 // #endregion
 
+//#region findLastIndex method
+// FindLastIndex returns the last index of an element that satisfies a condition
+console.log(movements);
+// math.abs here remove any the minus signal
+const lastLargeMovementIndex = movements.findLastIndex(mov => Math.abs(mov) > 2000); 
+console.log(`your last large movement was ${movements[lastLargeMovementIndex]} and it was ${movements.length - lastLargeMovementIndex } movements ago`);
+
+// #endregion
+
+console.log(movements);
+// The following method only returns true if any element of the array exactly matches the values specified
+console.log(movements.includes(-130));
+
+// The some method receives a callback function and returns true if any element of the array satisfies the condition
+console.log(movements.some(mov => mov > 0));

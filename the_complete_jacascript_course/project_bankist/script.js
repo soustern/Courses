@@ -184,21 +184,33 @@ btnVisibility.addEventListener(`click`, function(event) {
 
 btnClose.addEventListener(`click`, function(event) {
   event.preventDefault();
-  console.log(`delete`);
-  
-  if (!inputClosePin.value.trim() && !inputCloseUsername.value.trim())
+
+  const pin = inputClosePin.value.trim();
+  const username = inputCloseUsername.value.trim();
+
+  if (!pin && !username)
   {
     alert(`pin and username missing`);
   }
-  else if(!inputClosePin.value.trim())
+  else if(!pin)
   {
     alert(`pin is missing`);
   }
-  else if(!inputCloseUsername.value.trim())
+  else if(!username)
   {
     alert(`username is missing`);
   };
-    
+  
+  // Could also have used == instead of Number(pin)
+  const [selectedAccount] = accounts.filter(account => account.pin === Number(pin) && account.username === username);
+  if (selectedAccount?.pin === currentAccount.pin && selectedAccount?.username === currentAccount.username)
+    {
+      const index = accounts.findIndex(account => account === currentAccount);
+      console.log(index);
+      accounts.splice(index, 1);
+      containerApp.style.opacity = 0;
+    } 
+    inputClosePin.value = inputCloseUsername.value = ``;
 });
 // #endregion
 

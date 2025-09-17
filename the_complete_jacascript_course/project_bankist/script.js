@@ -436,6 +436,8 @@ console.log(`your last large movement was ${movements[lastLargeMovementIndex]} a
 
 // #endregion
 
+// #region some, includes and every methods
+
 console.log(movements);
 // The following method only returns true if any element of the array exactly matches the values specified
 console.log(movements.includes(-130));
@@ -451,5 +453,29 @@ console.log(account4.movements.every(mov => mov > 0));
 
 // separate callback
 
-const deposit = mob => mov > 0;
+const deposit = mov => mov > 0;
 console.log(movements.some(deposit));
+
+// #endregion
+
+// #region flat and flatMap methods
+
+const arrayy = [[1 , 2, 3], [4, 5, 6 ], 7, 8];
+console.log(arrayy.flat());
+
+const arrDeep = [[[1, 2], 3], [4, 5, 6], 7, 8];
+// Using depth argument
+console.log(arrDeep.flat(2));
+
+const accountMovements = accounts.map(acc => acc.movements);
+console.log(accountMovements);
+console.log(accountMovements.flat());
+const overallBalance = accountMovements.flat().reduce((acc, mov) => acc + mov, 0);
+console.log(overallBalance);
+
+// Flat map combines a map and flat method being better for performance
+// bUT IF WE WANT TO GO deeper WITH NESTED ARRAYS, WHY STill have to use the regular flat method with a depth argument
+const overallBalance2 = accounts.flatMap(acc => acc.movements).reduce((acc, mov) => acc + mov, 0);
+console.log(overallBalance2);
+
+// #endregion

@@ -168,6 +168,26 @@ btnTransfer.addEventListener(`click`, function(event) {
 
 // #endregion
 
+// #region Request Loan
+
+btnLoan.addEventListener(`click`, event => {
+  event.preventDefault();
+
+  const amount = Number(inputLoanAmount.value)
+
+  if (amount > 0 && currentAccount.movements.some(movement => movement >= amount * 0.1))
+  {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    updateUI(currentAccount);
+  }
+
+  inputLoanAmount.value = ``;
+});
+
+// #endregion
+
 // #region implement Close Account
 
 btnVisibility.addEventListener(`click`, function(event) {
@@ -422,3 +442,14 @@ console.log(movements.includes(-130));
 
 // The some method receives a callback function and returns true if any element of the array satisfies the condition
 console.log(movements.some(mov => mov > 0));
+
+// Every method
+
+// Checks if every entry on that array satisfies the condition defined on the callback
+
+console.log(account4.movements.every(mov => mov > 0));
+
+// separate callback
+
+const deposit = mob => mov > 0;
+console.log(movements.some(deposit));
